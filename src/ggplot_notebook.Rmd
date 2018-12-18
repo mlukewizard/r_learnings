@@ -1,0 +1,159 @@
+---
+title: "ggplot_demo"
+output: html_notebook
+---
+
+intuitive data visualisations
+ggplot grammar
+Data
+Layers
+Scales
+Coordinates
+Faceting (similar to pivot table)
+Themes 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*. 
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Ctrl+Shift+K* to preview the HTML file).
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+
+
+```{r}
+# install.packages("here")
+library("ggplot2")
+library("here")
+
+titatnic_data_path <- here("data", "titanic_dataset")
+titanic <- read.csv(file.path(titatnic_data_path, "train.csv"), stringsAsFactors=FALSE)
+View(titanic)
+```
+
+Class and survived are currently saved as integers, however it is not "ratio" data so it should be turned into a factor
+Sex abd Embarked are strings and should also be factors
+```{r}
+titanic$Pclass <- as.factor(titanic$Pclass)
+titanic$Survived <- as.factor(titanic$Survived)
+titanic$Sex <- as.factor(titanic$Sex)
+titanic$Embarked <- as.factor(titanic$Embarked)
+```
+
+```{r}
+ggplot(titanic, aes(x=Survived)) + geom_bar()
+
+```
+```{r}
+prop.table(table(titanic$Survived))
+
+```
+```{r}
+ggplot(titanic, aes(x=Survived)) + 
+  theme_bw() + 
+  geom_bar() + 
+  labs(y = "Passenger Count",
+       title = "Titanic Survival Rates")
+
+```
+
+```{r}
+ggplot(titanic, aes(x=Sex, fill = Survived)) + 
+  theme_bw() + 
+  geom_bar() + 
+  labs(y = "Passenger Count",
+       title = "Titanic Survival Rates")
+
+```
+
+
+```{r}
+ggplot(titanic, aes(x=Pclass, fill = Survived)) + 
+  theme_bw() + 
+  geom_bar() + 
+  labs(y = "Passenger Count",
+       title = "Titanic Survival Rates")
+
+```
+```{r}
+ggplot(titanic, aes(x=Sex, fill = Survived)) + 
+  theme_bw() +
+  facet_wrap(~Pclass) +
+  geom_bar() + 
+  labs(y = "Passenger Count",
+       title = "Titanic Survival Rates")
+
+```
+```{r}
+ggplot(titanic, aes(x=Age)) + 
+  theme_bw() +
+  geom_histogram(binwidth = 5) + 
+  labs(y = "Passenger Count",
+       x = "Age (binwidth = 5)",
+       title = "Titanic Survival Rates")
+
+```
+
+```{r}
+ggplot(titanic, aes(x=Age, fill = Survived)) + 
+  theme_bw() +
+  geom_histogram(binwidth = 5) + 
+  labs(y = "Rand.rate",
+       x = "Age (binwidth = 5)",
+       title = "Titanic Survival Rates")
+
+```
+
+```{r}
+ggplot(titanic, aes(x=Survived, y = Age)) + 
+  theme_bw() +
+  geom_boxplot() + 
+  labs(y = "Age",
+       x = "Survived",
+       title = "Titanic Survival Rates")
+
+```
+
+```{r}
+ggplot(titanic, aes(x=Age, fill = Survived)) + 
+  theme_bw() +
+  facet_wrap(Sex ~ Pclass) +
+  geom_density(alpha = 0.5) + 
+  labs(y = "Age",
+       x = "Survived",
+       title = "Titanic Survival Rates")
+
+```
+
+```{r}
+ggplot(titanic, aes(x=Age, fill = Survived)) + 
+  theme_bw() +
+  facet_wrap(Sex ~ Pclass) +
+  geom_histogram(binwidth = 5) + 
+  labs(y = "Age",
+       x = "Survived",
+       title = "Titanic Survival Rates")
+
+```
+
+```{r}
+ggplot(titanic, aes(x=Age, fill = Survived)) + 
+  theme_bw() +
+  facet_wrap(Sex ~ Pclass) +
+  geom_histogram(binwidth = 5) + 
+  labs(y = "Age",
+       x = "Max recruits",
+       title = "Titanic Survival Rates")
+
+```
+
+```{r}
+ggplot(titanic, aes(x=Age, fill = Survived)) + 
+  theme_bw() +
+  facet_wrap(Sex ~ Pclass) +
+  geom_histogram(binwidth = 5) + 
+  labs(y = "Age",
+       x = "Max recruits",
+       title = "Titanic Survival Rates")
+
+```
